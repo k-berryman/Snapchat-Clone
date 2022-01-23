@@ -150,3 +150,8 @@ Now, Add the Preview Component
 Install uuid because we need unique ids for img upload
 `npm install uuid`
 `import { v4 as uuid } from "uuid";` in Preview.js
+
+
+# Building the chat screen
+Add a new route in App.js
+Create Chats component
