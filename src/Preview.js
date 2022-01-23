@@ -18,6 +18,7 @@ import { getStorage, ref, uploadString, uploadBytesResumable, getDownloadURL } f
 import firebase from "firebase/compat/app";
 import { collection, addDoc } from "firebase/firestore";
 
+
 function Preview() {
   // selectCameraImage is from cameraSlice.js. Redux handles this data layer
   const cameraImage = useSelector(selectCameraImage);
@@ -45,50 +46,26 @@ function Preview() {
 
     const storageRef = ref(storage, `posts/${id}`);
     const uploadTask = uploadBytesResumable(storageRef, cameraImage, metadata);
-    let myDownloadURL = null;
 
     // now we need to upload the image to firebase storage
-    uploadString(storageRef, cameraImage, 'data_url').then((snapshot) => {
-      console.log('Uploaded a data_url string!');
-      getDownloadURL(snapshot.ref).then((downloadURL) => {
-        myDownloadURL = downloadURL;
-        console.log('File available at', downloadURL);
-      });
-    });
+    uploadString(storageRef, cameraImage, 'data_url')
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref)
+          // now let's do something after that upload
+          .then((downloadURL) => {
+            console.log('File available at', downloadURL);
+            const docRef = addDoc(collection(db, "posts"), {
+              image: downloadURL,
+              username: "Kaitlin",
+              read: false,
+              // profilePic
+              // timestamp: firebase.firestore.FieldValue.serverTimestamp()
 
-    // now let's do something after that upload
-    uploadTask.on(
-      'state_changed',
-
-      // 2nd param is for a progress function
-      null,
-
-      // 3rd param is for an error functio
-      (error) => {
-        console.log(error)
-      },
-
-      // 4th param runs when the upload finishes
-      async () => {
-        console.log("runnning");
-
-        try {
-          const docRef = await addDoc(collection(db, "posts"), {
-            image: myDownloadURL,
-            username: "Kaitlin",
-            read: false,
-            // profilePic
-            // timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            history('/chats');
 
           });
-          console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-          console.error("Error adding document: ", e);
-        }
-
-        history('/chats');
-      }
-    );
+      });
   }
 
   return (
