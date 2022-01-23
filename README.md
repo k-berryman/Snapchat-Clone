@@ -127,3 +127,23 @@ Update "Switch" to "Routes"
     <Route exact path="/" element={<WebcamCapture />}/>
   </Routes>
 </div>
+
+In WebcamCapture.js, useHistory() is replaced by useNavigate()
+import { useHistory } from "react-router-dom"
+const history = useHistory();
+history.push('/preview')
+
+is now
+
+import { useNavigate } from "react-router-dom"
+const history = useNavigate();
+history('/preview')
+
+
+Also in Preview.js, useHistory() is replaced with useNavigate()
+
+
+
+Now, Add the Preview Component
+
+Paused at 1:33:11
