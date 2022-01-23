@@ -146,4 +146,7 @@ Also in Preview.js, useHistory() is replaced with useNavigate()
 
 Now, Add the Preview Component
 
-Paused at 1:33:11
+
+Install uuid because we need unique ids for img upload
+`npm install uuid`
+`import { v4 as uuid } from "uuid";` in Preview.js
