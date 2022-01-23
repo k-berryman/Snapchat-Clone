@@ -16,7 +16,7 @@ import { v4 as uuid } from "uuid";
 import { db, storage } from "./firebase";
 import { getStorage, ref, uploadString, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import firebase from "firebase/compat/app";
-import { collection, addDoc } from "firebase/firestone";
+import { collection, addDoc } from "firebase/firestore";
 
 function Preview() {
   // selectCameraImage is from cameraSlice.js. Redux handles this data layer
